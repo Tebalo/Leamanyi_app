@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:leamanyi_app/text_Interface/MyCustomForm.dart';
 import 'package:leamanyi_app/text_Interface/MyHomePage.dart';
-void main() {
+import 'package:leamanyi_app/text_Interface/MenuPage.dart';
+
+void main() async{
+  //print(tags);
   runApp(MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -11,10 +14,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Leamanyi',
       theme: ThemeData(
-        primarySwatch: Colors.brown,
+        primarySwatch: Colors.blue,
       ),
-      //home: MyHomePage(title: 'Leamanyi(Part of Speech)'),
-      home: MyCustomForm(),
+      //home: MyHomePage(title: 'Leamanyi (Part of Speech)'),
+      //home: MyCustomForm(),
+      home: MenuPage(),
     );
   }
 }
