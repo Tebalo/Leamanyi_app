@@ -58,9 +58,9 @@ class Nltk{
     return {for(var i in array.sublist(1)) i:array[0]};
   }
   Future<Map> create_dictionary() async {
-    String corpus = await rootBundle.loadString('assets/setswana_corpus.txt');
-    LineSplitter ls = new LineSplitter();
-    List<String> lines = ls.convert(corpus);
+    String corpus = await rootBundle.loadString('assets/corpus.txt');
+    print(corpus);
+    List<String> lines = corpus.split(" ");
     Map map = new Map();
     for(var i = 0; i < lines.length; i++){
       Map new_map = array_to_dictionary(text_to_array(lines[0]));
@@ -173,13 +173,17 @@ class Nltk{
     List tagged_sent = [];
     List tokenized_sent = [];
     List sents = sent_tokenize(paragraph);
-
-    for(String sent in sents){
-      tokenized_sent = word_tokenize(sent);
-      tagged_sent = pos_tagger(tokenized_sent);
-      //print(tagged_sent);
-      tagged.add(tagged_sent);
+    if(paragraph!=null){
+      for(String sent in sents){
+        tokenized_sent = word_tokenize(sent);
+        tagged_sent = pos_tagger(tokenized_sent);
+        //print(tagged_sent);
+        tagged.add(tagged_sent);
+      }
+    }else{
+      print("no data");
     }
+
     return tagged_sent;
   }
   List word_tokenize(String sent){

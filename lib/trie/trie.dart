@@ -1,7 +1,4 @@
 import 'dart:async' show Future;
-import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:leamanyi_app/nltoolkit/nltk.dart';
 
@@ -37,8 +34,6 @@ class Trie{
     Node node = new Node();
     print(tags);
     for(List<String> tag in tags){
-      //print(tag[0]);
-      //print(tag.sublist(1));
       create(tag[0], tag.sublist(1), node);
     }
     return node;
@@ -48,67 +43,13 @@ class Trie{
      posTags = posTags.replaceAll("{<", "").replaceAll("><", " ");
      List lines = posTags.split(">}");
 
-     var patterns = [];
+     var patterns;
      for(var line in lines){
        patterns.add(line.split(" "));
      }
-
     return patterns;
   }
-  handleLines(List<String> lines){
-    for(var I in lines) log('$lines');
-  }
-  List<List<String>> strip_to_array(){
-    //String test = await rootBundle.loadString('assets/patterns.txt');
-    //print(test);
-    var config = new File("assets/patterns.txt");
-    config.readAsLines().then(handleLines);
-    log('$config');
-    String posTags = """{<CC7><CC7><VRB+ng>}
-    {<CC3><CC3><VRB+ng>}
-    {<C15><C15><VRB+ng>}
-    {<C12><C13><VRB+ng>}
-    {<C12><C13><VRB+ng>}
-    {<CC9><C10><VRB+ng>}
-    {<CC1><CC4><VRB+ng>}
-    {<CC7><CC7><L01><VRB+ng>}
-    {<CC7><CC7><ADJ8>}
-    {<CC7><CC7><L02><VRB+ng>}
-    {<CC7><CC7><L03><VRB+ng>}
-    {<CC7><CC7><L04><CC7><VRB+ng>}
-    {<CC7><CC7><L02><L05><CC7><VRB+ng>}
-    {<CC7><CC7><L03><L06><CC7><VRB+ng>}
-    {<CC7><CC7><L03><L06><CC7><L07><CC7><VRB+ng>}
-    {<CC7><CC7><CC8><L08><CC7><VRB+ng>}
-    {<CC7><CC7><L02><L01><L10><CC7><VRB+ng>}
-    {<CC7><CC7><L02><L11><C15><VRB+ng>}
-    {<CC5><CC5><L01><CC8><L01><L10><L12><VRB+ng>}
-    {<CC7><CC7><L02><C11><VRB+ng>}
-    {<CC7><CC7><CC8><L01><L10><CC7><C11><VRB+ng>}
-    {<CC7><CC7><L02><L05><CC7><L02><VRB+ng>}
-    {<CC7><CC7><L02><L05><CC7><L03><VRB+ng>}
-    {<CC7><CC8><L01><L10><CC7><L03><CC7><VRB+ng>}
-    {<CC7><CC7><CC8><L01><L10><CC7><L03><C15><VRB+ng>}
-    {<CC7><CC7><L02><L13><CC7><VRB+ng>}""";
 
-    //String texts = nl.sent_tokenize(pos_tags) as String;
-    //List texts = posTags.split("\n");
-    List<List<String>> tags = [["CC7","CC7","VRB+ng"],["CC3","CC3","VRB+ng"],["C15","C15","VRB+ng"],["C12","C13","VRB+ng"],["C11","C11","VRB+ng"],["CC4","CC4","VRB+ng"],["CC8","CC8","ADJ8"],["CC9","C10","VRB+ng"],["CC6","CC6","VRB+ng"],["CC1","CC4","VRB+ng"]];
-    //int i = 0;
-    //List<List<String>> tagset = [];
-   // for(String sent in texts){
-     // sent = sent.replaceAll("{<","").replaceAll(">}","").replaceAll("><"," ").replaceAll("\r"," ");
-     // print(sent);
-     // List<String> sents = sent.split(" ");
-      //print(sents);
-      //tagset.add(sents);
-    //}
-    //print(tagset);
-    return tags;
-  }
-  void futureToList(List lst) async{
-    lst = await strip_to_array();
-  }
   String search(var tup, List arr, Node node, String identified){
     String tagg = "No leamanyi";
     if(node.children.containsKey(tup.item2)){
@@ -137,10 +78,12 @@ class Trie{
       // a_mod = tags.sublist(1,tags.length-1);
       // return search_trie(a_mod, node);
       //}
-      if(node.children.containsKey(tags.item2)){
-        //print(node.children[tags.item2]);
-        aMod = tagged.sublist(1,tagged.length);
-        tagLea = search_trie(aMod, node);
+      if(node.children!=null) {
+        if (node.children.containsKey(tags.item2)) {
+          //print(node.children[tags.item2]);
+          aMod = tagged.sublist(1, tagged.length);
+          tagLea = search_trie(aMod, node);
+        }
       }
     //}
     }
